@@ -1,0 +1,33 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+  python_publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile.publisher
+    depends_on:
+      - rabbitmq
+
+  spark-master:
+    image: bitnami/spark:3.4.1
+    environment:
+      - SPARK_MODE=master
+    volumes:
+      - ./output:/opt/bitnami/spark/output
+
+    ports:
+      - 8080:8080
+
+  spark-worker:
+    image: bitnami/spark:3.4.1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    volumes:
+      - ./output:/opt/bitnami/spark/output
