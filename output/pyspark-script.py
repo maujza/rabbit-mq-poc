@@ -17,7 +17,7 @@ rabbitmq_connection_config = {
 # Read from RabbitMQ topic using your custom data source
 df = spark \
     .readStream \
-    .format("rabbitmq") \
+    .format("com.github.maujza.RabbitMQTableProvider") \
     .options(**rabbitmq_connection_config) \
     .load()
 
@@ -25,7 +25,7 @@ df = spark \
 df.writeStream \
     .outputMode("append") \
     .format("csv") \
-    .option("path", "/output") \
+    .option("path", "output") \
     .option("checkpointLocation", "/output/checkpoints") \
     .start() \
     .awaitTermination()

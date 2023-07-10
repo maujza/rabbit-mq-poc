@@ -15,7 +15,9 @@ services:
       - rabbitmq
 
   spark-master:
-    image: bitnami/spark:3.4.1
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
     environment:
       - SPARK_MODE=master
     volumes:
@@ -25,7 +27,9 @@ services:
       - 8080:8080
 
   spark-worker:
-    image: bitnami/spark:3.4.1
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
