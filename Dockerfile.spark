@@ -1,4 +1,4 @@
 # Use base spark image
 FROM bitnami/spark:3.2.2
 USER 1001
-COPY /jars/rabbitmq-connector.jar /opt/bitnami/spark/jars/
+# COPY /jars/mongo-spark-connector-10.2.0-SNAPSHOT-all.jar /opt/bitnami/spark/jars/
