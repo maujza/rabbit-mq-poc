@@ -20,6 +20,7 @@ rabbitmq_connection_config = {
     "username": "guest",
     "password": "guest",
     "queue_name": "message_queue",
+    "exchange":"",
     "virtual_host": "/"
 }
 
@@ -30,8 +31,10 @@ dataStreamWriter = (spark.readStream
   .schema(schema)
   .load()
   .writeStream
-  .format("console")
-  .trigger(processingTime="10 second")
+  .format("csv")
+  .option("path", "/opt/bitnami/spark/output")  # path where the csv files will be stored
+  .option("checkpointLocation", "/opt/bitnami/spark/output/checkpoint") 
+  .trigger(processingTime="13 milliseconds")
   .outputMode("append")
 )
 # run the query
