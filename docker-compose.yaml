@@ -6,13 +6,19 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    healthcheck:
+      test: ["CMD", "nc", "-z", "rabbitmq", "5672"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   python_publisher:
     build:
       context: .
       dockerfile: Dockerfile.publisher
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
 
   spark-master:
     build:
@@ -22,7 +28,6 @@ services:
       - SPARK_MODE=master
     volumes:
       - ./output:/opt/bitnami/spark/output
-
     ports:
       - 8080:8080
 
