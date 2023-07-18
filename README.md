@@ -42,4 +42,4 @@ This command will stop and remove all containers and clean up any associated vol
 
 ## Custom Spark Connector
 
-The custom Spark connector is implemented in the `pyspark-script.py` file and utilized by the Apache Spark container to consume messages from RabbitMQ. The `rabbitmq-connector-1.0-all.jar` is the JAR file for the custom connector.
+The custom Spark connector is implemented in the `pyspark-script.py` file and utilized by the Apache Spark container to consume messages from RabbitMQ. The `rabbitmq-connector-1.0-all.jar` is the JAR file for the custom connector. Source code can be found here https://github.com/maujza/rabbitmq-connector
