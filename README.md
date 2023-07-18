@@ -32,7 +32,21 @@ docker-compose up --build
 
 This command will create and start the RabbitMQ, Python publisher, and Apache Spark containers as defined in the `docker-compose.yaml` file. The Python publisher will publish messages to the RabbitMQ queue, and the Spark container will consume and process those messages using the custom Spark connector.
 
-3. To stop and remove all containers, networks, and volumes created by Docker Compose, run:
+3. To run the Spark job defined in our `pyspark-script.py` located in the "output/" folder, we must first access the Spark master container:
+
+```bash
+docker exec -it spark-master-container /bin/bash
+```
+
+4. Once inside the container, submit the Spark job using the following command:
+
+```bash
+spark-submit --jars output/rabbitmq-connector-1.0-all.jar output/pyspark-script.py
+```
+
+Please note that running the Spark job will generate a lot of partitioned CSV files in the "output/" folder.
+
+5. To stop and remove all containers, networks, and volumes created by Docker Compose, run:
 
 ```
 docker-compose down --volumes --rmi all
