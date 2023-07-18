@@ -1,7 +1,7 @@
 # RabbitMQ / Spark POC
 
 ## Description
-This project sets up a Docker Compose environment for publishing messages to a RabbitMQ queue and consuming them using Apache Spark with a custom Spark connector built using the v2 Data Source API to finally save them in a CSV.
+This project sets up a Docker Compose environment for publishing messages to a RabbitMQ queue and consuming them using Apache Spark with a custom Spark connector (https://github.com/maujza/rabbitmq-connector) built using the v2 Data Source API to finally save them in a CSV.
 
 ## Project Structure
 The project has the following structure:
