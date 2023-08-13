@@ -1,10 +1,11 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, IntegerType, DoubleType
+from pyspark.sql.types import StructType, StructField, IntegerType, DoubleType, StringType
 
 # Define the schema for the data
 schema = StructType([
     StructField("key", IntegerType(), nullable=False),
-    StructField("value", DoubleType(), nullable=False)
+    StructField("value", DoubleType(), nullable=False),
+    StructField("value_string", StringType(), nullable=False)
 ])
 
 # Initialize SparkSession
