@@ -23,7 +23,7 @@ rabbitmq_connection_config = {
     "queue_name": "message_queue",
     "exchange":"",
     "virtual_host": "/",
-    "time_limit": "1000"
+    "time_limit": "1000" # in millis
 }
 
 # Read from RabbitMQ topic using your custom data source
