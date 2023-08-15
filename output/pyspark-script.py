@@ -22,7 +22,8 @@ rabbitmq_connection_config = {
     "password": "guest",
     "queue_name": "message_queue",
     "exchange":"",
-    "virtual_host": "/"
+    "virtual_host": "/",
+    "time_limit": "1000"
 }
 
 # Read from RabbitMQ topic using your custom data source
