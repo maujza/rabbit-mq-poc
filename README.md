@@ -3,6 +3,10 @@
 ## Description
 This project sets up a Docker Compose environment for publishing messages to a RabbitMQ queue and consuming them using Apache Spark with a custom Spark connector (https://github.com/maujza/rabbitmq-connector) built using the v2 Data Source API to finally save them in a CSV.
 
+### Important Note
+
+At this time, only micro-batching is supported by the custom Spark connector. By default, the connector is set with a maximum of 1000 messages per micro-batch and a 2-second time limit for default, this can be changes in the script
+
 ## Project Structure
 The project has the following structure:
 
@@ -57,3 +61,4 @@ This command will stop and remove all containers and clean up any associated vol
 ## Custom Spark Connector
 
 The custom Spark connector is implemented in the `pyspark-script.py` file and utilized by the Apache Spark container to consume messages from RabbitMQ. The `rabbitmq-connector-1.0-all.jar` is the JAR file for the custom connector. Source code can be found here https://github.com/maujza/rabbitmq-connector
+```
