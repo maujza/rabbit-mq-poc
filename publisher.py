@@ -32,6 +32,6 @@ while True:
         exchange='', routing_key=queue_name, body=message
     )
     print(" [x] Sent %r" % (message,))
-    time.sleep(.001)
+    time.sleep(3)
 
 connection.close()
