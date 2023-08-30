@@ -7,6 +7,8 @@ This project sets up a Docker Compose environment for publishing messages to a R
 
 At this time, only micro-batching is supported by the custom Spark connector. By default, the connector is set with a maximum of 1000 messages per micro-batch and a 2-second time limit for default, this can be changes in the script
 
+Warning: RabbitMQ does not handle offsets, which means once a message is consumed from the queue, it cannot be re-read. Be cautious when performing actions in your Spark jobs that could consume the data, as you cannot recompute or re-read input data. This is particularly important if you call multiple actions (e.g., count(), show()) on the same DataFrame in your Spark script. In summary, avoid calling multiple actions on the same DataFrame within the foreachBatch function unless you cache it first. If you must call multiple actions, consider using cache() to persist the DataFrame.
+
 ## Project Structure
 The project has the following structure:
 

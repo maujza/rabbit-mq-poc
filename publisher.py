@@ -1,10 +1,11 @@
 import pika
 import time
-import random
 import json
-
-import random
 import string
+import random
+
+# Define a global variable for the message key
+message_key = 0
 
 def generate_random_string(length):
     letters = string.ascii_letters
@@ -12,8 +13,13 @@ def generate_random_string(length):
     return result_str
 
 def random_message():
+    global message_key  # Declare the variable as global so we can modify it
+
+    # Increment the message key by 1
+    message_key += 1
+
     return json.dumps({
-        "key": random.randint(1, 1000),
+        "key": message_key,
         "value": random.random(),
         "value_string": generate_random_string(10)
     })

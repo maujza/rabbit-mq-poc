@@ -23,22 +23,22 @@ rabbitmq_connection_config = {
     "queue_name": "message_queue",
     "exchange": "",
     "virtual_host": "/",
-    # "time_limit": "2000",  # in millis
-    "max_messages_per_partition": 2000
+    # "time_limit": "2000",  # in millis, optional
+    # "max_messages_per_partition": 2000 # optional
 }
 
+def write_to_console(batch_df, batch_id):
+    batch_df.cache()  # Cache the DataFrame
+    batch_df.show(truncate=False)
+    num_rows = batch_df.count()
+    batch_df.unpersist()  # Unpersist the DataFrame to free up memory
+
 # Read from RabbitMQ topic using your custom data source
-dataStreamWriter = (spark.readStream
+dataStream = (spark.readStream
   .format("rabbitmq")
   .options(**rabbitmq_connection_config)
   .schema(schema)
   .load()
-  .writeStream
-  .format("console")  # output to console
-  .outputMode("append")
 )
 
-# run the query
-query = dataStreamWriter.start()
-
-query.awaitTermination()
+dataStream.writeStream.foreachBatch(write_to_console).outputMode("append").start().awaitTermination()
