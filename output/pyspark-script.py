@@ -16,14 +16,14 @@ spark = SparkSession.builder \
 
 # Define RabbitMQ connection configuration
 rabbitmq_connection_config = {
-    "host": "rabbitmq",
+    "hostname": "rabbitmq",
     "port": "5672",
     "username": "guest",
     "password": "guest",
-    "queue_name": "message_queue",
+    "queue": "message_queue",
     "exchange": "",
-    "virtual_host": "/",
-    # "time_limit": "2000",  # in millis, optional
+    "virtualHost": "/",
+    "time_limit": "1000",  # in millis, optional
     # "max_messages_per_partition": 2000 # optional
 }
 

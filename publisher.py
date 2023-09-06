@@ -33,11 +33,12 @@ queue_name = "message_queue"
 channel.queue_declare(queue=queue_name)
 
 while True:
+    time.sleep(60)
     message = random_message()
     channel.basic_publish(
         exchange='', routing_key=queue_name, body=message
     )
     print(" [x] Sent %r" % (message,))
-    time.sleep(3)
+    
 
 connection.close()
