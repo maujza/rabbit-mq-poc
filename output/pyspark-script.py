@@ -1,20 +1,47 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, IntegerType, DoubleType, StringType
+from pyspark.sql.types import (
+    StructType,
+    StructField,
+    IntegerType,
+    DoubleType,
+    StringType,
+)
 
 # Define the schema for the data
-schema = StructType([
-    StructField("key", IntegerType(), nullable=False),
-    StructField("value", DoubleType(), nullable=False),
-    StructField("value_string", StringType(), nullable=False)
-])
+schema = StructType(
+    [
+        StructField("customerid", StringType(), nullable=True),
+        StructField("datacontenttype", StringType(), nullable=True),
+        StructField("id", StringType(), nullable=True),
+        StructField("producttype", StringType(), nullable=True),
+        StructField("source", StringType(), nullable=True),
+        StructField("specversion", StringType(), nullable=True),
+        StructField("subject", StringType(), nullable=True),
+        StructField("time", StringType(), nullable=True),
+        StructField("traceid", StringType(), nullable=True),
+        StructField("traceparent", StringType(), nullable=True),
+        StructField("type", StringType(), nullable=True),
+        StructField(
+            "Transaction",
+            StructType(
+                [
+                    StructField("BaseAmount", IntegerType(), nullable=True),
+                    StructField("CustomerAmount", IntegerType(), nullable=True),
+                    StructField("Date", StringType(), nullable=True),
+                ]
+            ),
+            nullable=True,
+        ),
+    ]
+)
 
 # Initialize SparkSession
-spark = SparkSession.builder \
-    .appName("RabbitMQ Stream") \
-    .config("spark.jars", "/opt/bitnami/spark/output/rabbitmq-connector-1.0-all.jar") \
+spark = (
+    SparkSession.builder.appName("RabbitMQ Stream")
+    .config("spark.jars", "/opt/bitnami/spark/output/rabbitmq-connector-1.0-all.jar")
     .getOrCreate()
+)
 
-# Define RabbitMQ connection configuration
 rabbitmq_connection_config = {
     "hostname": "rabbitmq",
     "port": "5672",
@@ -34,11 +61,13 @@ def write_to_console(batch_df, batch_id):
     batch_df.unpersist()  # Unpersist the DataFrame to free up memory
 
 # Read from RabbitMQ topic using your custom data source
-dataStream = (spark.readStream
-  .format("rabbitmq")
-  .options(**rabbitmq_connection_config)
-  .schema(schema)
-  .load()
+dataStream = (
+    spark.readStream.format("rabbitmq")
+    .options(**rabbitmq_connection_config)
+    .schema(schema)
+    .load()
 )
 
-dataStream.writeStream.foreachBatch(write_to_console).outputMode("append").start().awaitTermination()
+dataStream.writeStream.foreachBatch(write_to_console).outputMode(
+    "append"
+).start().awaitTermination()
