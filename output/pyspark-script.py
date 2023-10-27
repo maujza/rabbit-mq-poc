@@ -49,7 +49,7 @@ rabbitmq_connection_config = {
     "password": "guest",
     "queue": "message_queue",
     "exchange": "",
-    "virtualHost": "/",
+    "virtual_host": "/",
     "time_limit": "1000",  # in millis, optional
     # "max_messages_per_partition": 2000 # optional
 }
